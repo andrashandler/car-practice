@@ -1,0 +1,22 @@
+<div class="container m-4">
+
+    @if (car) {
+    <a type="button" class="btn btn-outline-dark mb-4" routerLink="..">Vissza</a>
+
+    <h5>{{car.brand}} {{car.model}} <span class="badge text-bg-secondary">{{car.year}}</span></h5>
+    <div class="row align-items-center">
+
+        <div class="col-4">
+            @if (car.imgUrl) {
+            <img [src]="car.imgUrl" class="rounded shadow my-4 w-100" [alt]="car.brand" style="max-width: 300px;">
+            }
+        </div>
+
+        <div class="col-8">
+            <p></p>
+            <p class="card-text">{{car.description}}</p>
+            <p class="fw-bold" [class.text-danger]="car.price>5000000">{{car.price | huf }}</p>
+        </div>
+    </div>
+    }
+</div>

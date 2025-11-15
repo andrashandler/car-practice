@@ -1,0 +1,26 @@
+<div class="container my-4">
+    <div class="row">
+        <input class="form-control w-100 mb-4" type="search" placeholder="Keresés" aria-label="Keresés"
+            [(ngModel)]="filterText" (input)="filterCars()" />
+
+    </div>
+    <div class="row">
+        @for (car of filteredCars; track $index) {
+        <div class="col-3">
+            <div class="card p-0 mb-4">
+                @if (car.imgUrl) {
+                <img [src]="car.imgUrl" class="card-img-top" [alt]="car.brand">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">{{car.brand}} {{car.model}}</h5>
+                    <p><span class="badge text-bg-secondary">{{car.year}}</span></p>
+                    <p class="card-text">{{car.excerpt}}</p>
+                    <p [appExpensive]="car.price">{{car.price | huf }}</p>
+                    <button type="button" class="btn btn-outline-dark"
+                        (click)="showCarDetails(car.id)">Részletek...</button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
