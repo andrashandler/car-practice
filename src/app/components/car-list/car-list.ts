@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Car } from '../../models/car';
 import { CarService } from '../../services/car-service';
 import { Router } from '@angular/router';
+import { SearchService } from '../../services/search-service';
 
 @Component({
   selector: 'app-car-list',
@@ -11,12 +12,19 @@ import { Router } from '@angular/router';
 })
 export class CarList implements OnInit {
   cars: Car[] = [];
-  filterText: string = '';
   filteredCars: Car[] = [];
+
+  // navbarból érkező filter text amire feliratkozunk a searchService-ből
+  searchTerm = '';
   
-  constructor(private carService: CarService, private router: Router) {}
+  constructor(private carService: CarService, private searchService: SearchService, private router: Router) {}
 
   ngOnInit(): void {
+    this.searchService.searchTerm$.subscribe(term => {
+      this.searchTerm = term;
+      this.filterCars();
+    });
+
     this.cars = this.carService.getCars();
     this.filteredCars = [...this.cars];
   }
@@ -28,7 +36,7 @@ export class CarList implements OnInit {
   filterCars() {    
 
     // keresőmező értéke
-    const search = this.filterText.toLowerCase().trim();
+    const search = this.searchTerm.toLowerCase().trim();
 
     // felbontom szavakra
     const terms = search.split(/\s+/);
